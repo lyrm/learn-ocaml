@@ -257,6 +257,53 @@ module type S = sig
 
   (*----------------------------------------------------------------------------*)
 
+  val simple_test_function_1_against_solution :
+    ?gen: int ->
+    ?test: 'b tester ->
+    ?test_stdout: io_tester ->
+    ?test_stderr: io_tester ->
+    ?before_reference : ('a -> unit) ->
+    ?before_user : ('a -> unit) ->
+    ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
+    ?sampler : (unit -> 'a) ->
+    ('a -> 'b) Ty.ty -> string -> 'a list -> Learnocaml_report.item
+
+    
+  val simple_test_function_2_against_solution :
+    ?gen: int ->
+    ?test: 'c tester ->
+    ?test_stdout: io_tester ->
+    ?test_stderr: io_tester ->
+    ?before_reference : ('a -> 'b -> unit) ->
+    ?before_user : ('a -> 'b -> unit) ->
+    ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
+    ?sampler : (unit -> 'a * 'b) ->
+    ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b) list -> Learnocaml_report.item
+    
+  val simple_test_function_3_against_solution :
+    ?gen: int ->
+    ?test: 'd tester ->
+    ?test_stdout: io_tester ->
+    ?test_stderr: io_tester ->
+    ?before_reference : ('a -> 'b -> 'c -> unit) ->
+    ?before_user : ('a -> 'b -> 'c -> unit) ->
+    ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
+    ?sampler : (unit -> 'a * 'b * 'c) ->
+    ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c) list -> Learnocaml_report.item
+
+  val simple_test_function_4_against_solution :
+    ?gen: int ->
+    ?test: 'e tester ->
+    ?test_stdout: io_tester ->
+    ?test_stderr: io_tester ->
+    ?before_reference : ('a -> 'b -> 'c -> 'd -> unit) ->
+    ?before_user : ('a -> 'b -> 'c -> 'd -> unit) ->
+    ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
+    ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
+    ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.item
+   
+  (*----------------------------------------------------------------------------*)
+
   (* Usage: arg 3 @@ arg "word" @@ last false *)
   type ('arrow, 'uarrow, 'ret) args
   val last :
@@ -1479,6 +1526,48 @@ let run_timeout ~time v =
       ~before_reference:(pre before_reference)
       ~before_user:(pre before_user)
       ~after ?sampler prot (lookup_student ty name) (lookup_solution ty name) tests
+
+  (*----------------------------------------------------------------------------*)
+
+  let simple_test_function_1_against_solution ?gen
+      ?test ?test_stdout ?test_stderr
+      ?before_reference ?before_user ?after ?sampler ty name tests =
+    Learnocaml_report.(Section (
+        [Text "function" ; Code name],
+        test_function_1_against_solution
+          ?gen ?test ?test_stdout ?test_stderr
+          ?before_reference ?before_user ?after ?sampler ty name tests 
+      ))
+    
+  let simple_test_function_2_against_solution ?gen
+      ?test ?test_stdout ?test_stderr
+      ?before_reference ?before_user ?after ?sampler ty name tests =
+    Learnocaml_report.(Section (
+        [Text "function" ; Code name],
+        test_function_2_against_solution
+          ?gen ?test ?test_stdout ?test_stderr
+          ?before_reference ?before_user ?after ?sampler ty name tests 
+      ))
+    
+  let simple_test_function_3_against_solution ?gen
+      ?test ?test_stdout ?test_stderr
+      ?before_reference ?before_user ?after ?sampler ty name tests =
+    Learnocaml_report.(Section (
+        [Text "function" ; Code name],
+        test_function_3_against_solution
+          ?gen ?test ?test_stdout ?test_stderr
+          ?before_reference ?before_user ?after ?sampler ty name tests 
+      ))
+    
+  let simple_test_function_4_against_solution ?gen
+      ?test ?test_stdout ?test_stderr
+      ?before_reference ?before_user ?after ?sampler ty name tests =
+    Learnocaml_report.(Section (
+        [Text "function" ; Code name],
+        test_function_4_against_solution
+          ?gen ?test ?test_stdout ?test_stderr
+          ?before_reference ?before_user ?after ?sampler ty name tests 
+         ))
 
   (*----------------------------------------------------------------------------*)
 
