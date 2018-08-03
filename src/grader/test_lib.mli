@@ -309,7 +309,7 @@ module type S = sig
 
   (*----------------------------------------------------------------------------*)
 
-  module Simple_test_function : sig 
+  module Simple_test_functions : sig 
 
     val simple_test_ref :
       'a Ty.ty -> string -> 'a ref -> 'a -> Learnocaml_report.item
@@ -367,7 +367,8 @@ module type S = sig
       ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
       ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.item
   end
-    
+       
+  include (module type of Simple_test_functions)
 end
 
 module Make : functor
