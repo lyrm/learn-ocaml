@@ -136,17 +136,6 @@ module type S = sig
     ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
     ('a -> 'b) Ty.ty -> string -> ('a * 'b * string * string) list -> Learnocaml_report.report
 
-  val test_function_1_against :
-    ?gen: int ->
-    ?test: 'b tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> unit) ->
-    ?before_user : ('a -> unit) ->
-    ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a) ->
-    ('a -> 'b) Ty.ty -> string -> ('a -> 'b) -> 'a list -> Learnocaml_report.report
-
   val test_function_1_against_solution :
     ?gen: int ->
     ?test: 'b tester ->
@@ -167,17 +156,6 @@ module type S = sig
     ?before : ('a -> 'b -> unit) ->
     ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
     ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b * 'c * string * string) list -> Learnocaml_report.report
-
-  val test_function_2_against :
-    ?gen: int ->
-    ?test: 'c tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> unit) ->
-    ?before_user : ('a -> 'b -> unit) ->
-    ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b) ->
-    ('a -> 'b -> 'c) Ty.ty -> string -> ('a -> 'b -> 'c) -> ('a * 'b) list -> Learnocaml_report.report
 
   val test_function_2_against_solution :
     ?gen: int ->
@@ -200,17 +178,6 @@ module type S = sig
     ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
     ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c * 'd * string * string) list -> Learnocaml_report.report
 
-  val test_function_3_against :
-    ?gen: int ->
-    ?test: 'd tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> 'c -> unit) ->
-    ?before_user : ('a -> 'b -> 'c -> unit) ->
-    ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b * 'c) ->
-    ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a -> 'b -> 'c -> 'd) -> ('a * 'b * 'c) list -> Learnocaml_report.report
-
   val test_function_3_against_solution :
     ?gen: int ->
     ?test: 'd tester ->
@@ -232,18 +199,6 @@ module type S = sig
     ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
     ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd * 'e * string * string) list -> Learnocaml_report.report
 
-  val test_function_4_against :
-    ?gen: int ->
-    ?test: 'e tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> 'c -> 'd -> unit) ->
-    ?before_user : ('a -> 'b -> 'c -> 'd -> unit) ->
-    ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
-    ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a -> 'b -> 'c -> 'd -> 'e)
-    -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.report
-
   val test_function_4_against_solution :
     ?gen: int ->
     ?test: 'e tester ->
@@ -256,53 +211,6 @@ module type S = sig
     ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.report
 
   (*----------------------------------------------------------------------------*)
-
-  val simple_test_function_1_against_solution :
-    ?gen: int ->
-    ?test: 'b tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> unit) ->
-    ?before_user : ('a -> unit) ->
-    ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a) ->
-    ('a -> 'b) Ty.ty -> string -> 'a list -> Learnocaml_report.item
-
-  val simple_test_function_2_against_solution :
-    ?gen: int ->
-    ?test: 'c tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> unit) ->
-    ?before_user : ('a -> 'b -> unit) ->
-    ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b) ->
-    ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b) list -> Learnocaml_report.item
-    
-  val simple_test_function_3_against_solution :
-    ?gen: int ->
-    ?test: 'd tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> 'c -> unit) ->
-    ?before_user : ('a -> 'b -> 'c -> unit) ->
-    ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b * 'c) ->
-    ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c) list -> Learnocaml_report.item
-
-  val simple_test_function_4_against_solution :
-    ?gen: int ->
-    ?test: 'e tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> 'c -> 'd -> unit) ->
-    ?before_user : ('a -> 'b -> 'c -> 'd -> unit) ->
-    ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
-    ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.item
-
- (*----------------------------------------------------------------------------*)
-
    
   (** The type of arguments, represented as heterogeneous lists.
 
@@ -399,6 +307,55 @@ module type S = sig
 
   val printable_fun : string -> (_ -> _ as 'f) -> 'f
 
+  (*----------------------------------------------------------------------------*)
+
+  module Simple_test_function : sig 
+
+    val simple_test_function_1_against_solution :
+      ?gen: int ->
+      ?test: 'b tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before_reference : ('a -> unit) ->
+      ?before_user : ('a -> unit) ->
+      ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
+      ?sampler : (unit -> 'a) ->
+      ('a -> 'b) Ty.ty -> string -> 'a list -> Learnocaml_report.item
+
+    val simple_test_function_2_against_solution :
+      ?gen: int ->
+      ?test: 'c tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before_reference : ('a -> 'b -> unit) ->
+      ?before_user : ('a -> 'b -> unit) ->
+      ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
+      ?sampler : (unit -> 'a * 'b) ->
+      ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b) list -> Learnocaml_report.item
+    
+    val simple_test_function_3_against_solution :
+      ?gen: int ->
+      ?test: 'd tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before_reference : ('a -> 'b -> 'c -> unit) ->
+      ?before_user : ('a -> 'b -> 'c -> unit) ->
+      ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
+      ?sampler : (unit -> 'a * 'b * 'c) ->
+      ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c) list -> Learnocaml_report.item
+
+    val simple_test_function_4_against_solution :
+      ?gen: int ->
+      ?test: 'e tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before_reference : ('a -> 'b -> 'c -> 'd -> unit) ->
+      ?before_user : ('a -> 'b -> 'c -> 'd -> unit) ->
+      ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
+      ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
+      ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.item
+  end
+    
 end
 
 module Make : functor
