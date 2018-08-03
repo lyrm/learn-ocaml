@@ -1538,10 +1538,10 @@ let run_timeout ~time v =
     
   (*----------------------------------------------------------------------------*)
 
-  module Simple_test_functions = struct 
+  module Simple_test_functions = struct
 
-    let simple_test_ref ty name got exp =  
-      set_progress ("Grading reference "^name^".") ;
+    let simple_test_ref ty name got exp =
+      set_progress ("Grading reference"^name^".") ;
       Learnocaml_report.(
         Section (
             [Text "Reference: "; Code name],
