@@ -311,6 +311,18 @@ module type S = sig
 
   module Simple_test_function : sig 
 
+    val simple_test_ref :
+      'a Ty.ty -> string -> 'a ref -> 'a -> Learnocaml_report.item
+
+    val simple_test_variable :
+      'a Ty.ty -> string -> 'a -> Learnocaml_report.item
+
+    val simple_test_variable_property :
+      'a Ty.ty -> string -> ('a -> Learnocaml_report.report) -> Learnocaml_report.item
+
+    val simple_test_variable_against_solution :
+      'a Ty.ty -> string -> Learnocaml_report.item
+
     val simple_test_function_1_against_solution :
       ?gen: int ->
       ?test: 'b tester ->

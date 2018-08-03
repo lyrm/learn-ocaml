@@ -136,17 +136,6 @@ module type S = sig
     ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
     ('a -> 'b) Ty.ty -> string -> ('a * 'b * string * string) list -> Learnocaml_report.report
 
-  val test_function_1_against :
-    ?gen: int ->
-    ?test: 'b tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> unit) ->
-    ?before_user : ('a -> unit) ->
-    ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a) ->
-    ('a -> 'b) Ty.ty -> string -> ('a -> 'b) -> 'a list -> Learnocaml_report.report
-
   val test_function_1_against_solution :
     ?gen: int ->
     ?test: 'b tester ->
@@ -167,17 +156,6 @@ module type S = sig
     ?before : ('a -> 'b -> unit) ->
     ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
     ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b * 'c * string * string) list -> Learnocaml_report.report
-
-  val test_function_2_against :
-    ?gen: int ->
-    ?test: 'c tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> unit) ->
-    ?before_user : ('a -> 'b -> unit) ->
-    ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b) ->
-    ('a -> 'b -> 'c) Ty.ty -> string -> ('a -> 'b -> 'c) -> ('a * 'b) list -> Learnocaml_report.report
 
   val test_function_2_against_solution :
     ?gen: int ->
@@ -200,17 +178,6 @@ module type S = sig
     ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
     ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c * 'd * string * string) list -> Learnocaml_report.report
 
-  val test_function_3_against :
-    ?gen: int ->
-    ?test: 'd tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> 'c -> unit) ->
-    ?before_user : ('a -> 'b -> 'c -> unit) ->
-    ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b * 'c) ->
-    ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a -> 'b -> 'c -> 'd) -> ('a * 'b * 'c) list -> Learnocaml_report.report
-
   val test_function_3_against_solution :
     ?gen: int ->
     ?test: 'd tester ->
@@ -232,18 +199,6 @@ module type S = sig
     ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
     ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd * 'e * string * string) list -> Learnocaml_report.report
 
-  val test_function_4_against :
-    ?gen: int ->
-    ?test: 'e tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> 'c -> 'd -> unit) ->
-    ?before_user : ('a -> 'b -> 'c -> 'd -> unit) ->
-    ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
-    ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a -> 'b -> 'c -> 'd -> 'e)
-    -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.report
-
   val test_function_4_against_solution :
     ?gen: int ->
     ?test: 'e tester ->
@@ -255,53 +210,6 @@ module type S = sig
     ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
     ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.report
 
-  (*----------------------------------------------------------------------------*)
-
-  val simple_test_function_1_against_solution :
-    ?gen: int ->
-    ?test: 'b tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> unit) ->
-    ?before_user : ('a -> unit) ->
-    ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a) ->
-    ('a -> 'b) Ty.ty -> string -> 'a list -> Learnocaml_report.item
-
-    
-  val simple_test_function_2_against_solution :
-    ?gen: int ->
-    ?test: 'c tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> unit) ->
-    ?before_user : ('a -> 'b -> unit) ->
-    ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b) ->
-    ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b) list -> Learnocaml_report.item
-    
-  val simple_test_function_3_against_solution :
-    ?gen: int ->
-    ?test: 'd tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> 'c -> unit) ->
-    ?before_user : ('a -> 'b -> 'c -> unit) ->
-    ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b * 'c) ->
-    ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c) list -> Learnocaml_report.item
-
-  val simple_test_function_4_against_solution :
-    ?gen: int ->
-    ?test: 'e tester ->
-    ?test_stdout: io_tester ->
-    ?test_stderr: io_tester ->
-    ?before_reference : ('a -> 'b -> 'c -> 'd -> unit) ->
-    ?before_user : ('a -> 'b -> 'c -> 'd -> unit) ->
-    ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
-    ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
-    ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.item
-   
   (*----------------------------------------------------------------------------*)
 
   (* Usage: arg 3 @@ arg "word" @@ last false *)
@@ -395,12 +303,73 @@ module type S = sig
 
   val printable_fun : string -> (_ -> _ as 'f) -> 'f
 
+  (*----------------------------------------------------------------------------*)
+
+  module Simple_test_function : sig 
+
+    val simple_test_ref :
+      'a Ty.ty -> string -> 'a ref -> 'a -> Learnocaml_report.item
+
+    val simple_test_variable :
+      'a Ty.ty -> string -> 'a -> Learnocaml_report.item
+
+    val simple_test_variable_property :
+      'a Ty.ty -> string -> ('a -> Learnocaml_report.report) -> Learnocaml_report.item
+
+    val simple_test_variable_against_solution :
+      'a Ty.ty -> string -> Learnocaml_report.item
+
+    val simple_test_function_1_against_solution :
+      ?gen: int ->
+      ?test: 'b tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before_reference : ('a -> unit) ->
+      ?before_user : ('a -> unit) ->
+      ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
+      ?sampler : (unit -> 'a) ->
+      ('a -> 'b) Ty.ty -> string -> 'a list -> Learnocaml_report.item
+
+    val simple_test_function_2_against_solution :
+      ?gen: int ->
+      ?test: 'c tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before_reference : ('a -> 'b -> unit) ->
+      ?before_user : ('a -> 'b -> unit) ->
+      ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
+      ?sampler : (unit -> 'a * 'b) ->
+      ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b) list -> Learnocaml_report.item
+    
+    val simple_test_function_3_against_solution :
+      ?gen: int ->
+      ?test: 'd tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before_reference : ('a -> 'b -> 'c -> unit) ->
+      ?before_user : ('a -> 'b -> 'c -> unit) ->
+      ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
+      ?sampler : (unit -> 'a * 'b * 'c) ->
+      ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c) list -> Learnocaml_report.item
+
+    val simple_test_function_4_against_solution :
+      ?gen: int ->
+      ?test: 'e tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before_reference : ('a -> 'b -> 'c -> 'd -> unit) ->
+      ?before_user : ('a -> 'b -> 'c -> 'd -> unit) ->
+      ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
+      ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
+      ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.item
+  end
+    
 end
 
 module Make
     (Params : sig
        val results : Learnocaml_report.report option ref
-       (* val set_progress : string -> unit *)
+       val set_progress : string -> unit
        val timeout : int option
        module Introspection : Introspection_intf.INTROSPECTION
      end) : S = struct
@@ -1334,17 +1303,6 @@ let run_timeout ~time v =
       ~before:(pre before)
       ~after prot (lookup_student ty name) tests
 
-  let test_function_1_against ?gen
-      ?test ?test_stdout ?test_stderr
-      ?before_reference ?before_user ?after ?sampler ty name rf tests =
-    let tests = List.map (fun x -> last x) tests in
-    let after, pre, sampler, prot = function_1_adapter after sampler ty in
-    test_function_against ?gen
-      ?test ?test_stdout ?test_stderr
-      ~before_reference:(pre before_reference)
-      ~before_user:(pre before_user)
-      ~after ?sampler prot (lookup_student ty name) (found name rf) tests
-
   let test_function_1_against_solution ?gen
       ?test ?test_stdout ?test_stderr
       ?before_reference ?before_user ?after ?sampler ty name tests =
@@ -1388,17 +1346,6 @@ let run_timeout ~time v =
       ~before:(pre before)
       ~after prot (lookup_student ty name) tests
 
-  let test_function_2_against ?gen
-      ?test ?test_stdout ?test_stderr
-      ?before_reference ?before_user ?after ?sampler ty name rf tests =
-    let tests = List.map (fun (x, y) -> arg x @@ last y) tests in
-    let after, pre, sampler, prot = function_2_adapter after sampler ty in
-    test_function_against ?gen
-      ?test ?test_stdout ?test_stderr
-      ~before_reference:(pre before_reference)
-      ~before_user:(pre before_user)
-      ~after ?sampler prot (lookup_student ty name) (found name rf) tests
-
   let test_function_2_against_solution ?gen
       ?test ?test_stdout ?test_stderr
       ?before_reference ?before_user ?after ?sampler ty name tests =
@@ -1436,24 +1383,13 @@ let run_timeout ~time v =
       ?test ?test_stdout ?test_stderr
       ?before ?after ty name tests =
     let tests = List.map (fun (w, x, y, r, out, err) ->
-        (arg w @@ arg x @@ last y, (fun () ->  output_string stdout out ; output_string stderr err ; r)))
+      (arg w @@ arg x @@ last y, (fun () ->  output_string stdout out ; output_string stderr err ; r)))
         tests in
     let after, pre, _, prot = function_3_adapter after None ty in
     test_function
       ?test ?test_stdout ?test_stderr
       ~before:(pre before)
       ~after prot (lookup_student ty name) tests
-
-  let test_function_3_against ?gen
-      ?test ?test_stdout ?test_stderr
-      ?before_reference ?before_user ?after ?sampler ty name rf tests =
-    let tests = List.map (fun (w, x, y) -> arg w @@ arg x @@ last y) tests in
-    let after, pre, sampler, prot = function_3_adapter after sampler ty in
-    test_function_against ?gen
-      ?test ?test_stdout ?test_stderr
-      ~before_reference:(pre before_reference)
-      ~before_user:(pre before_user)
-      ~after ?sampler prot (lookup_student ty name) (found name rf) tests
 
   let test_function_3_against_solution ?gen
       ?test ?test_stdout ?test_stderr
@@ -1505,17 +1441,6 @@ let run_timeout ~time v =
       ~before:(pre before)
       ~after prot (lookup_student ty name) tests
 
-  let test_function_4_against ?gen
-      ?test ?test_stdout ?test_stderr
-      ?before_reference ?before_user ?after ?sampler ty name rf tests =
-    let tests = List.map (fun (w, x, y, z) -> arg w @@ arg x @@ arg y @@ last z) tests in
-    let after, pre, sampler, prot = function_4_adapter after sampler ty in
-    test_function_against ?gen
-      ?test ?test_stdout ?test_stderr
-      ~before_reference:(pre before_reference)
-      ~before_user:(pre before_user)
-      ~after ?sampler prot (lookup_student ty name) (found name rf) tests
-
   let test_function_4_against_solution ?gen
       ?test ?test_stdout ?test_stderr
       ?before_reference ?before_user ?after ?sampler ty name tests =
@@ -1526,48 +1451,6 @@ let run_timeout ~time v =
       ~before_reference:(pre before_reference)
       ~before_user:(pre before_user)
       ~after ?sampler prot (lookup_student ty name) (lookup_solution ty name) tests
-
-  (*----------------------------------------------------------------------------*)
-
-  let simple_test_function_1_against_solution ?gen
-      ?test ?test_stdout ?test_stderr
-      ?before_reference ?before_user ?after ?sampler ty name tests =
-    Learnocaml_report.(Section (
-        [Text "function" ; Code name],
-        test_function_1_against_solution
-          ?gen ?test ?test_stdout ?test_stderr
-          ?before_reference ?before_user ?after ?sampler ty name tests 
-      ))
-    
-  let simple_test_function_2_against_solution ?gen
-      ?test ?test_stdout ?test_stderr
-      ?before_reference ?before_user ?after ?sampler ty name tests =
-    Learnocaml_report.(Section (
-        [Text "function" ; Code name],
-        test_function_2_against_solution
-          ?gen ?test ?test_stdout ?test_stderr
-          ?before_reference ?before_user ?after ?sampler ty name tests 
-      ))
-    
-  let simple_test_function_3_against_solution ?gen
-      ?test ?test_stdout ?test_stderr
-      ?before_reference ?before_user ?after ?sampler ty name tests =
-    Learnocaml_report.(Section (
-        [Text "function" ; Code name],
-        test_function_3_against_solution
-          ?gen ?test ?test_stdout ?test_stderr
-          ?before_reference ?before_user ?after ?sampler ty name tests 
-      ))
-    
-  let simple_test_function_4_against_solution ?gen
-      ?test ?test_stdout ?test_stderr
-      ?before_reference ?before_user ?after ?sampler ty name tests =
-    Learnocaml_report.(Section (
-        [Text "function" ; Code name],
-        test_function_4_against_solution
-          ?gen ?test ?test_stdout ?test_stderr
-          ?before_reference ?before_user ?after ?sampler ty name tests 
-         ))
 
   (*----------------------------------------------------------------------------*)
 
@@ -1651,6 +1534,84 @@ let run_timeout ~time v =
     let path = Path.Pident (Ident.create "fun_printer") in
     let ty = Typetexp.transl_type_scheme !Toploop.toplevel_env (Ty.obj [%ty: _ -> _ ]) in
     Toploop.install_printer path ty.Typedtree.ctyp_type fun_printer
+    
+  (*----------------------------------------------------------------------------*)
+
+  module Simple_test_function = struct 
+
+    let simple_test_ref ty name got exp =  
+      set_progress ("Grading reference "^name^".") ;
+      Learnocaml_report.(
+        Section (
+            [Text "Reference: "; Code name],
+            test_ref ty got exp))                 
+
+    let simple_test_variable ty name r =
+      set_progress ("Grading variable "^name^".") ;
+      Learnocaml_report.(
+        Section (
+            [Text "Variable: "; Code name],
+            test_variable ty name r))             
+     
+    let simple_test_variable_property ty name cb =
+      set_progress ("Grading variable "^name^".") ;
+      Learnocaml_report.(
+        Section (
+            [Text "Variable: "; Code name],
+            test_variable_property ty name cb))     
+
+    let simple_test_variable_against_solution ty name =
+      set_progress ("Grading variable "^name^".") ;
+      Learnocaml_report.(
+        Section (
+            [Text "Variable: "; Code name],
+            test_variable_against_solution ty name))   
+    
+    let simple_test_function_1_against_solution ?gen
+          ?test ?test_stdout ?test_stderr
+          ?before_reference ?before_user ?after ?sampler ty name tests =
+      set_progress ("Grading function "^name^".") ;
+      Learnocaml_report.(Section (
+          [Text "Function: " ; Code name],
+          test_function_1_against_solution
+            ?gen ?test ?test_stdout ?test_stderr
+            ?before_reference ?before_user ?after ?sampler ty name tests 
+        ))
+    
+    let simple_test_function_2_against_solution ?gen
+          ?test ?test_stdout ?test_stderr
+          ?before_reference ?before_user ?after ?sampler ty name tests =
+      set_progress ("Grading function "^name^".") ;
+      Learnocaml_report.(Section (
+          [Text "Function: " ; Code name],
+          test_function_2_against_solution
+            ?gen ?test ?test_stdout ?test_stderr
+            ?before_reference ?before_user ?after ?sampler ty name tests 
+        ))
+    
+    let simple_test_function_3_against_solution ?gen
+          ?test ?test_stdout ?test_stderr
+          ?before_reference ?before_user ?after ?sampler ty name tests =
+      set_progress ("Grading function "^name^".") ;
+      Learnocaml_report.(Section (
+          [Text "Function: " ; Code name],
+          test_function_3_against_solution
+            ?gen ?test ?test_stdout ?test_stderr
+            ?before_reference ?before_user ?after ?sampler ty name tests 
+        ))
+    
+    let simple_test_function_4_against_solution ?gen
+        ?test ?test_stdout ?test_stderr
+        ?before_reference ?before_user ?after ?sampler ty name tests =
+      set_progress ("Grading function "^name^".") ;
+      Learnocaml_report.(Section (
+          [Text "Function: " ; Code name],
+          test_function_4_against_solution
+            ?gen ?test ?test_stdout ?test_stderr
+            ?before_reference ?before_user ?after ?sampler ty name tests 
+           ))
+    end 
+
 end
 
 let () =
