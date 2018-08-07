@@ -305,21 +305,21 @@ module type S = sig
 
   (*----------------------------------------------------------------------------*)
 
-  module Simple_test_functions : sig 
+  module Grade_functions : sig 
 
-    val simple_test_ref :
+    val grade_ref :
       'a Ty.ty -> string -> 'a ref -> 'a -> Learnocaml_report.item
 
-    val simple_test_variable :
+    val grade_variable :
       'a Ty.ty -> string -> 'a -> Learnocaml_report.item
 
-    val simple_test_variable_property :
+    val grade_variable_property :
       'a Ty.ty -> string -> ('a -> Learnocaml_report.report) -> Learnocaml_report.item
 
-    val simple_test_variable_against_solution :
+    val grade_variable_against_solution :
       'a Ty.ty -> string -> Learnocaml_report.item
 
-    val simple_test_function_1_against_solution :
+    val grade_function_1_against_solution :
       ?gen: int ->
       ?test: 'b tester ->
       ?test_stdout: io_tester ->
@@ -330,7 +330,7 @@ module type S = sig
       ?sampler : (unit -> 'a) ->
       ('a -> 'b) Ty.ty -> string -> 'a list -> Learnocaml_report.item
 
-    val simple_test_function_2_against_solution :
+    val grade_function_2_against_solution :
       ?gen: int ->
       ?test: 'c tester ->
       ?test_stdout: io_tester ->
@@ -341,7 +341,7 @@ module type S = sig
       ?sampler : (unit -> 'a * 'b) ->
       ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b) list -> Learnocaml_report.item
     
-    val simple_test_function_3_against_solution :
+    val grade_function_3_against_solution :
       ?gen: int ->
       ?test: 'd tester ->
       ?test_stdout: io_tester ->
@@ -352,7 +352,7 @@ module type S = sig
       ?sampler : (unit -> 'a * 'b * 'c) ->
       ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c) list -> Learnocaml_report.item
 
-    val simple_test_function_4_against_solution :
+    val grade_function_4_against_solution :
       ?gen: int ->
       ?test: 'e tester ->
       ?test_stdout: io_tester ->
@@ -364,7 +364,7 @@ module type S = sig
       ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.item
   end
 
-  include (module type of Simple_test_functions)   
+  include (module type of Grade_functions)   
 end
 
 module Make
@@ -1538,37 +1538,37 @@ let run_timeout ~time v =
     
   (*----------------------------------------------------------------------------*)
 
-  module Simple_test_functions = struct
+  module Grade_functions = struct
 
-    let simple_test_ref ty name got exp =
+    let grade_ref ty name got exp =
       set_progress ("Grading reference"^name^".") ;
       Learnocaml_report.(
         Section (
             [Text "Reference: "; Code name],
             test_ref ty got exp))                 
 
-    let simple_test_variable ty name r =
+    let grade_variable ty name r =
       set_progress ("Grading variable "^name^".") ;
       Learnocaml_report.(
         Section (
             [Text "Variable: "; Code name],
             test_variable ty name r))             
      
-    let simple_test_variable_property ty name cb =
+    let grade_variable_property ty name cb =
       set_progress ("Grading variable "^name^".") ;
       Learnocaml_report.(
         Section (
             [Text "Variable: "; Code name],
             test_variable_property ty name cb))     
 
-    let simple_test_variable_against_solution ty name =
+    let grade_variable_against_solution ty name =
       set_progress ("Grading variable "^name^".") ;
       Learnocaml_report.(
         Section (
             [Text "Variable: "; Code name],
             test_variable_against_solution ty name))   
     
-    let simple_test_function_1_against_solution ?gen
+    let grade_function_1_against_solution ?gen
           ?test ?test_stdout ?test_stderr
           ?before_reference ?before_user ?after ?sampler ty name tests =
       set_progress ("Grading function "^name^".") ;
@@ -1579,7 +1579,7 @@ let run_timeout ~time v =
             ?before_reference ?before_user ?after ?sampler ty name tests 
         ))
     
-    let simple_test_function_2_against_solution ?gen
+    let grade_function_2_against_solution ?gen
           ?test ?test_stdout ?test_stderr
           ?before_reference ?before_user ?after ?sampler ty name tests =
       set_progress ("Grading function "^name^".") ;
@@ -1590,7 +1590,7 @@ let run_timeout ~time v =
             ?before_reference ?before_user ?after ?sampler ty name tests 
         ))
     
-    let simple_test_function_3_against_solution ?gen
+    let grade_function_3_against_solution ?gen
           ?test ?test_stdout ?test_stderr
           ?before_reference ?before_user ?after ?sampler ty name tests =
       set_progress ("Grading function "^name^".") ;
@@ -1601,7 +1601,7 @@ let run_timeout ~time v =
             ?before_reference ?before_user ?after ?sampler ty name tests 
         ))
     
-    let simple_test_function_4_against_solution ?gen
+    let grade_function_4_against_solution ?gen
         ?test ?test_stdout ?test_stderr
         ?before_reference ?before_user ?after ?sampler ty name tests =
       set_progress ("Grading function "^name^".") ;
@@ -1613,7 +1613,7 @@ let run_timeout ~time v =
            ))
     end 
 
-  include Simple_test_functions
+  include Grade_functions
 end
 
 let () =

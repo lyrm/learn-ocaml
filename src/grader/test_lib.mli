@@ -309,21 +309,21 @@ module type S = sig
 
   (*----------------------------------------------------------------------------*)
 
-  module Simple_test_functions : sig 
+  module Grade_functions : sig 
 
-    val simple_test_ref :
+    val grade_ref :
       'a Ty.ty -> string -> 'a ref -> 'a -> Learnocaml_report.item
 
-    val simple_test_variable :
+    val grade_variable :
       'a Ty.ty -> string -> 'a -> Learnocaml_report.item
 
-    val simple_test_variable_property :
+    val grade_variable_property :
       'a Ty.ty -> string -> ('a -> Learnocaml_report.report) -> Learnocaml_report.item
 
-    val simple_test_variable_against_solution :
+    val grade_variable_against_solution :
       'a Ty.ty -> string -> Learnocaml_report.item
 
-    val simple_test_function_1_against_solution :
+    val grade_function_1_against_solution :
       ?gen: int ->
       ?test: 'b tester ->
       ?test_stdout: io_tester ->
@@ -334,7 +334,7 @@ module type S = sig
       ?sampler : (unit -> 'a) ->
       ('a -> 'b) Ty.ty -> string -> 'a list -> Learnocaml_report.item
 
-    val simple_test_function_2_against_solution :
+    val grade_function_2_against_solution :
       ?gen: int ->
       ?test: 'c tester ->
       ?test_stdout: io_tester ->
@@ -345,7 +345,7 @@ module type S = sig
       ?sampler : (unit -> 'a * 'b) ->
       ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b) list -> Learnocaml_report.item
     
-    val simple_test_function_3_against_solution :
+    val grade_function_3_against_solution :
       ?gen: int ->
       ?test: 'd tester ->
       ?test_stdout: io_tester ->
@@ -356,7 +356,7 @@ module type S = sig
       ?sampler : (unit -> 'a * 'b * 'c) ->
       ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c) list -> Learnocaml_report.item
 
-    val simple_test_function_4_against_solution :
+    val grade_function_4_against_solution :
       ?gen: int ->
       ?test: 'e tester ->
       ?test_stdout: io_tester ->
@@ -368,7 +368,7 @@ module type S = sig
       ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.item
   end
        
-  include (module type of Simple_test_functions)
+  include (module type of Grade_functions)
 end
 
 module Make : functor
