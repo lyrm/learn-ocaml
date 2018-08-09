@@ -334,6 +334,14 @@ module type S = sig
       ?sampler : (unit -> 'a) ->
       ('a -> 'b) Ty.ty -> string -> 'a list -> Learnocaml_report.item
 
+    val grade_function_1 :
+      ?test: 'b tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before : ('a -> unit) ->
+      ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
+      ('a -> 'b) Ty.ty -> string -> ('a * 'b * string * string) list -> Learnocaml_report.item
+      
     val grade_function_2_against_solution :
       ?gen: int ->
       ?test: 'c tester ->
@@ -344,7 +352,15 @@ module type S = sig
       ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
       ?sampler : (unit -> 'a * 'b) ->
       ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b) list -> Learnocaml_report.item
-    
+   
+    val grade_function_2 :
+      ?test: 'c tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before : ('a -> 'b -> unit) ->
+      ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
+      ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b * 'c * string * string) list -> Learnocaml_report.item
+      
     val grade_function_3_against_solution :
       ?gen: int ->
       ?test: 'd tester ->
@@ -356,6 +372,14 @@ module type S = sig
       ?sampler : (unit -> 'a * 'b * 'c) ->
       ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c) list -> Learnocaml_report.item
 
+    val grade_function_3 :
+      ?test: 'd tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before : ('a -> 'b -> 'c -> unit) ->
+      ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
+      ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c * 'd * string * string) list -> Learnocaml_report.item
+      
     val grade_function_4_against_solution :
       ?gen: int ->
       ?test: 'e tester ->
@@ -366,6 +390,15 @@ module type S = sig
       ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
       ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
       ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.item
+
+    val grade_function_4 :
+      ?test: 'e tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before : ('a -> 'b -> 'c -> 'd -> unit) ->
+      ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
+      ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd * 'e * string * string) list -> Learnocaml_report.item
+
   end
        
   include (module type of Grade_functions)

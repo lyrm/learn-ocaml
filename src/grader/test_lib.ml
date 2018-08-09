@@ -330,6 +330,14 @@ module type S = sig
       ?sampler : (unit -> 'a) ->
       ('a -> 'b) Ty.ty -> string -> 'a list -> Learnocaml_report.item
 
+    val grade_function_1 :
+      ?test: 'b tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before : ('a -> unit) ->
+      ?after : ('a -> ('b * string * string) -> ('b * string * string) -> Learnocaml_report.report) ->
+      ('a -> 'b) Ty.ty -> string -> ('a * 'b * string * string) list -> Learnocaml_report.item
+
     val grade_function_2_against_solution :
       ?gen: int ->
       ?test: 'c tester ->
@@ -340,7 +348,15 @@ module type S = sig
       ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
       ?sampler : (unit -> 'a * 'b) ->
       ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b) list -> Learnocaml_report.item
-    
+      
+    val grade_function_2 :
+      ?test: 'c tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before : ('a -> 'b -> unit) ->
+      ?after : ('a -> 'b -> ('c * string * string) -> ('c * string * string) -> Learnocaml_report.report) ->
+      ('a -> 'b -> 'c) Ty.ty -> string -> ('a * 'b * 'c * string * string) list -> Learnocaml_report.item
+      
     val grade_function_3_against_solution :
       ?gen: int ->
       ?test: 'd tester ->
@@ -352,6 +368,14 @@ module type S = sig
       ?sampler : (unit -> 'a * 'b * 'c) ->
       ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c) list -> Learnocaml_report.item
 
+    val grade_function_3 :
+      ?test: 'd tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before : ('a -> 'b -> 'c -> unit) ->
+      ?after : ('a -> 'b -> 'c -> ('d * string * string) -> ('d * string * string) -> Learnocaml_report.report) ->
+      ('a -> 'b -> 'c -> 'd) Ty.ty -> string -> ('a * 'b * 'c * 'd * string * string) list -> Learnocaml_report.item
+      
     val grade_function_4_against_solution :
       ?gen: int ->
       ?test: 'e tester ->
@@ -362,6 +386,14 @@ module type S = sig
       ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
       ?sampler : (unit -> 'a * 'b * 'c * 'd) ->
       ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd) list -> Learnocaml_report.item
+
+    val grade_function_4 :
+      ?test: 'e tester ->
+      ?test_stdout: io_tester ->
+      ?test_stderr: io_tester ->
+      ?before : ('a -> 'b -> 'c -> 'd -> unit) ->
+      ?after : ('a -> 'b -> 'c -> 'd -> ('e * string * string) -> ('e * string * string) -> Learnocaml_report.report) ->
+      ('a -> 'b -> 'c -> 'd -> 'e) Ty.ty -> string -> ('a * 'b * 'c * 'd * 'e * string * string) list -> Learnocaml_report.item
   end
 
   include (module type of Grade_functions)   
@@ -1545,28 +1577,28 @@ let run_timeout ~time v =
       Learnocaml_report.(
         Section (
             [Text "Reference: "; Code name],
-            test_ref ty got exp))                 
+            test_ref ty got exp ))                 
 
     let grade_variable ty name r =
       set_progress ("Grading variable "^name^".") ;
       Learnocaml_report.(
         Section (
             [Text "Variable: "; Code name],
-            test_variable ty name r))             
+            test_variable ty name r ))             
      
     let grade_variable_property ty name cb =
       set_progress ("Grading variable "^name^".") ;
       Learnocaml_report.(
         Section (
             [Text "Variable: "; Code name],
-            test_variable_property ty name cb))     
+            test_variable_property ty name cb ))     
 
     let grade_variable_against_solution ty name =
       set_progress ("Grading variable "^name^".") ;
       Learnocaml_report.(
         Section (
             [Text "Variable: "; Code name],
-            test_variable_against_solution ty name))   
+            test_variable_against_solution ty name ))   
     
     let grade_function_1_against_solution ?gen
           ?test ?test_stdout ?test_stderr
@@ -1576,9 +1608,17 @@ let run_timeout ~time v =
           [Text "Function: " ; Code name],
           test_function_1_against_solution
             ?gen ?test ?test_stdout ?test_stderr
-            ?before_reference ?before_user ?after ?sampler ty name tests 
-        ))
-    
+            ?before_reference ?before_user ?after ?sampler ty name tests ))
+
+    let grade_function_1
+          ?test ?test_stdout ?test_stderr
+          ?before ?after ty name tests =
+      set_progress ("Grading function "^name^".") ;
+      Learnocaml_report.(Section (
+          [Text "Function: " ; Code name],
+          test_function_1 ?test ?test_stdout ?test_stderr
+            ?before ?after ty name tests ))               
+                             
     let grade_function_2_against_solution ?gen
           ?test ?test_stdout ?test_stderr
           ?before_reference ?before_user ?after ?sampler ty name tests =
@@ -1587,9 +1627,17 @@ let run_timeout ~time v =
           [Text "Function: " ; Code name],
           test_function_2_against_solution
             ?gen ?test ?test_stdout ?test_stderr
-            ?before_reference ?before_user ?after ?sampler ty name tests 
-        ))
-    
+            ?before_reference ?before_user ?after ?sampler ty name tests ))
+
+    let grade_function_2
+          ?test ?test_stdout ?test_stderr
+          ?before ?after ty name tests =
+      set_progress ("Grading function "^name^".") ;
+      Learnocaml_report.(Section (
+           [Text "Function: " ; Code name],
+           test_function_2 ?test ?test_stdout ?test_stderr
+            ?before ?after ty name tests ))
+      
     let grade_function_3_against_solution ?gen
           ?test ?test_stdout ?test_stderr
           ?before_reference ?before_user ?after ?sampler ty name tests =
@@ -1598,9 +1646,17 @@ let run_timeout ~time v =
           [Text "Function: " ; Code name],
           test_function_3_against_solution
             ?gen ?test ?test_stdout ?test_stderr
-            ?before_reference ?before_user ?after ?sampler ty name tests 
-        ))
-    
+            ?before_reference ?before_user ?after ?sampler ty name tests ))
+
+    let grade_function_3
+          ?test ?test_stdout ?test_stderr
+          ?before ?after ty name tests =
+      set_progress ("Grading function "^name^".") ;
+      Learnocaml_report.(Section (
+           [Text "Function: " ; Code name],
+           test_function_3 ?test ?test_stdout ?test_stderr
+            ?before ?after ty name tests ))
+          
     let grade_function_4_against_solution ?gen
         ?test ?test_stdout ?test_stderr
         ?before_reference ?before_user ?after ?sampler ty name tests =
@@ -1609,8 +1665,16 @@ let run_timeout ~time v =
           [Text "Function: " ; Code name],
           test_function_4_against_solution
             ?gen ?test ?test_stdout ?test_stderr
-            ?before_reference ?before_user ?after ?sampler ty name tests 
-           ))
+            ?before_reference ?before_user ?after ?sampler ty name tests ))
+
+    let grade_function_4
+          ?test ?test_stdout ?test_stderr
+          ?before ?after ty name tests =
+      set_progress ("Grading function "^name^".") ;
+      Learnocaml_report.(Section (
+           [Text "Function: " ; Code name],
+           test_function_4 ?test ?test_stdout ?test_stderr
+            ?before ?after ty name tests ))
     end 
 
   include Grade_functions
